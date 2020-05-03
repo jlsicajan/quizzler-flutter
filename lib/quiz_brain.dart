@@ -31,12 +31,9 @@ class QuizBrain {
         true),
   ];
 
-  bool nextQuestion() {
+  void nextQuestion() {
     if (_questionNumber < _questionBank.length - 1) {
       _questionNumber++;
-      return true;
-    } else {
-      return false;
     }
   }
 
@@ -48,5 +45,16 @@ class QuizBrain {
     return _questionBank[_questionNumber].questionAnswer;
   }
 
+  bool isFinished() {
+    return _questionNumber >= _questionBank.length - 1;
+//    if(_questionNumber >= _questionBank.length - 1){
+//      return true;
+//    }else{
+//      return false;
+//    }
+  }
 
+  void reset() {
+    _questionNumber = 0;
+  }
 }

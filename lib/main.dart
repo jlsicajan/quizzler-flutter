@@ -35,32 +35,26 @@ class _QuizPageState extends State<QuizPage> {
     bool correctAnswer = quizBrain.getQuestionAnswer();
 
     setState(() {
-      if (userPickedAnswer == correctAnswer) {
-//      print('User got it right');
-        scoreKeeper.add(Icon(Icons.check, color: Colors.green));
-      } else {
-//      print('User got it wrong');
-        scoreKeeper.add(Icon(Icons.close, color: Colors.red));
-      }
-
-      bool checkRemainingQuesitons = quizBrain.nextQuestion();
-      if (!checkRemainingQuesitons){
+      if (quizBrain.isFinished() == true) {
+        //Modified for our purposes:
         Alert(
           context: context,
-          type: AlertType.error,
-          title: "Thank you!",
-          desc: "You have completed the Quiz",
-          buttons: [
-            DialogButton(
-              child: Text(
-                "Cool",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              onPressed: () => Navigator.pop(context),
-              width: 120,
-            )
-          ],
+          title: 'Finished!',
+          desc: 'You\'ve reached the end of the quiz.',
         ).show();
+
+        quizBrain.reset();
+
+        scoreKeeper = [];
+      } else {
+        if (userPickedAnswer == correctAnswer) {
+//      print('User got it right');
+          scoreKeeper.add(Icon(Icons.check, color: Colors.green));
+        } else {
+//      print('User got it wrong');
+          scoreKeeper.add(Icon(Icons.close, color: Colors.red));
+        }
+        quizBrain.nextQuestion();
       }
     });
   }
